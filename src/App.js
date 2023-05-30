@@ -1,10 +1,31 @@
 import { FaNewspaper, FaArrowRight } from "react-icons/fa"
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
+import { Configuration, OpenAIApi } from 'openai'
 
 function App() {
   const [userInput, setUserInput] = useState('')
   const [userInputsArray, setUserInputsArray] = useState([])
+
+  const configuration = new Configuration({
+    apiKey: "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"
+  })
+
+    const openai = new OpenAIApi(configuration)
+
+    const fetchReply = async (outline) => {
+      try {
+        const response = await openai.createCompletion({
+          model: 'text-davinci-003',
+          prompt: `Generate a short message replying to "${outline}" and sound interesting. Mention one aspect of the sentence.`,
+          max_tokens: 60
+        });
+        const replyText = response.data.choices[0].text.trim();
+        console.log(replyText);
+        setUserInputsArray(prevUserInputsArray => [...prevUserInputsArray, replyText]);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
 
   const handleInputChange = (event) => {
     setUserInput(event.target.value);
@@ -12,12 +33,13 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (userInput.trim() !== '') {
+    if (userInput) {
       setUserInputsArray((prevUserInputsArray) => [
         ...prevUserInputsArray,
         userInput,
       ]);
       setUserInput('');
+      fetchReply(userInput);
     }
   };
 
