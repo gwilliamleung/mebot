@@ -7,7 +7,7 @@ function App() {
   const [userInputsArray, setUserInputsArray] = useState([])
 
   const configuration = new Configuration({
-    apiKey: "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"
+    apiKey: ""
   })
 
     const openai = new OpenAIApi(configuration)
