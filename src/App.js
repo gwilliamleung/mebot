@@ -12,10 +12,20 @@ function App() {
   })
   const openai = new OpenAIApi(configuration)
 
-  const insturctionObj = [{
-    role: 'system',
-    content: 'Friendly short message generator that encourages what the user said. '
-  }]
+
+  useEffect(() => {
+    setConversationArr(() => [
+      {
+        role: 'system',
+        content: 'Friendly short message generator that encourages what the user said. ',
+      },
+    ])
+  },[])
+
+  // const insturctionObj = [{
+  //   role: 'system',
+  //   content: 'Friendly short message generator that encourages what the user said. '
+  // }]
 
   const handleInputChange = (event) => {
     setUserInput(event.target.value)
@@ -25,30 +35,30 @@ function App() {
     event.preventDefault()
     if (userInput) {
       setConversationArr((prevConversationArr) => [
-        ...insturctionObj,
         ...prevConversationArr,
         {
           role:'user',
           content: userInput,
         },
       ])
-      console.log(converstaionArr)
       setUserInput('')
-      fetchReply(userInput)
+      console.log(converstaionArr)
+      fetchReply()
+          
     }
   }
 
     const fetchReply = async () => {
       try {
         const response = await openai.createCompletion({
-          model: 'gpt-4',
+          model: 'gpt-3.5-turbo',
           messages: converstaionArr
         })
-        setConversationArr((prevConversationArr)=>[
-          ...prevConversationArr,
-          response.data.choices[0].message
-        ])
-        console.log(converstaionArr)
+        // setConversationArr((prevConversationArr)=>[
+        //   ...prevConversationArr,
+        //   response.data.choices[0].message
+        // ])
+        console.log(response)
       } catch (error) {
         console.error('Error:', error)
       }
