@@ -5,7 +5,7 @@ import { Configuration, OpenAIApi } from 'openai'
 function App() {
   const [userInput, setUserInput] = useState('')
   const [userInputsArray, setUserInputsArray] = useState([])
-  const [converstaionArr, setConversationArr] = useState('')
+  const [conversationArr, setConversationArr] = useState('')
   
   const configuration = new Configuration({
     apiKey: ""
@@ -34,25 +34,23 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault()
     if (userInput) {
-      setConversationArr((prevConversationArr) => [
-        ...prevConversationArr,
-        {
-          role:'user',
-          content: userInput,
-        },
-      ])
+      const newMessage = {
+        role: 'user',
+        content: userInput,
+      }
+      const updatedConversation = [...conversationArr, newMessage]
+      setConversationArr(updatedConversation)
       setUserInput('')
-      console.log(converstaionArr)
-      fetchReply()
-          
+      console.log(updatedConversation)
+      fetchReply(updatedConversation)
     }
   }
 
-    const fetchReply = async () => {
+    const fetchReply = async (conversation) => {
       try {
         const response = await openai.createCompletion({
-          model: 'gpt-3.5-turbo',
-          messages: converstaionArr
+          model: "gpt-3.5-turbo",
+          messages: conversation
         })
         // setConversationArr((prevConversationArr)=>[
         //   ...prevConversationArr,
