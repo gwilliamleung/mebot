@@ -8,7 +8,7 @@ function App() {
   const [conversationArr, setConversationArr] = useState('')
   
   const configuration = new Configuration({
-    apiKey: ""
+    apiKey: "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"
   })
   const openai = new OpenAIApi(configuration)
 
@@ -48,18 +48,26 @@ function App() {
 
     const fetchReply = async (conversation) => {
       try {
-        const response = await openai.createCompletion({
-          model: "gpt-3.5-turbo",
-          messages: conversation
+        const response = await fetch("https://api.openai.com/v1/chat/completions",{
+          method: "POST",
+          headers: {
+            "Authorization": "Bearer ",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            "model": "gpt-3.5-turbo",
+            "messages" : conversation
+          })        
         })
+        const data = await response.json()
+        console.log(data)
         // setConversationArr((prevConversationArr)=>[
         //   ...prevConversationArr,
         //   response.data.choices[0].message
         // ])
-        console.log(response)
       } catch (error) {
-        console.error('Error:', error)
-      }
+          console.error('Error:', error)
+        }
     }
 
 
