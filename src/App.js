@@ -8,7 +8,7 @@ function App() {
   const [conversationArr, setConversationArr] = useState('')
   
   const configuration = new Configuration({
-    apiKey: "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"
+    apiKey: ""
   })
   const openai = new OpenAIApi(configuration)
 
