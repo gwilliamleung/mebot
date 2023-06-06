@@ -4,20 +4,19 @@ import { Configuration, OpenAIApi } from 'openai'
 
 function App() {
   const [userInput, setUserInput] = useState('')
-  const [userInputsArray, setUserInputsArray] = useState([])
-  const [conversationArr, setConversationArr] = useState('')
+  const [conversationArr, setConversationArr] = useState([])
   
-  const configuration = new Configuration({
-    apiKey: ""
-  })
-  const openai = new OpenAIApi(configuration)
+  // const configuration = new Configuration({
+  //   apiKey: ""
+  // })
+  // const openai = new OpenAIApi(configuration)
 
 
   useEffect(() => {
     setConversationArr(() => [
       {
         role: 'system',
-        content: 'Friendly short message generator that encourages what the user said. ',
+        content: 'Friendly short message, 10 words or less, generator that encourages what the user said. ',
       },
     ])
   },[])
@@ -60,11 +59,10 @@ function App() {
           })        
         })
         const data = await response.json()
-        console.log(data)
-        // setConversationArr((prevConversationArr)=>[
-        //   ...prevConversationArr,
-        //   response.data.choices[0].message
-        // ])
+        const updatedConversationBot = [...conversation, data.choices[0].message]
+        setConversationArr(updatedConversationBot)
+        console.log(data.choices[0].message)
+        console.log(updatedConversationBot)
       } catch (error) {
           console.error('Error:', error)
         }
@@ -83,11 +81,7 @@ function App() {
           </div>
         </div>
         <div className="h-full w-full bg-white justify-between rounded-b-md flex flex-col overflow-y-scroll">
-          {/* <div className="h-full w-full flex flex-col">
-          {userInputsArray.map((input, index) => (
-            <div key={index}>{input}</div>
-          ))}
-          </div> */}
+
           <form className="mt-auto" onSubmit={handleSubmit}>
             <div className="flex justify-between border-slate-700 border-2">
               <input
