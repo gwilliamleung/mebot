@@ -7,7 +7,7 @@ function App() {
   const [conversationArr, setConversationArr] = useState([])
   
   // const configuration = new Configuration({
-  //   apiKey: ""
+  //   apiKey: "sk-"
   // })
   // const openai = new OpenAIApi(configuration)
 
@@ -50,7 +50,7 @@ function App() {
         const response = await fetch("https://api.openai.com/v1/chat/completions",{
           method: "POST",
           headers: {
-            "Authorization": "Bearer ",
+            "Authorization": "Bearer sk-",
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
@@ -81,7 +81,12 @@ function App() {
           </div>
         </div>
         <div className="h-full w-full bg-white justify-between rounded-b-md flex flex-col overflow-y-scroll">
-
+            {conversationArr.map((message, index) => (
+                <div key={index} className={`message ${message.role === "user" ? "text-blue-500" : "text-red-500"}`}>
+                  <h3>{message.role}</h3>
+                  <p>{message.content}</p>
+                </div>
+              ))}
           <form className="mt-auto" onSubmit={handleSubmit}>
             <div className="flex justify-between border-slate-700 border-2">
               <input
