@@ -81,12 +81,15 @@ function App() {
           </div>
         </div>
         <div className="h-full w-full bg-white justify-between rounded-b-md flex flex-col overflow-y-scroll">
-            {conversationArr.map((message, index) => (
+            {conversationArr.map((message, index) => {
+              if (index === 0) return null
+              return (
                 <div key={index} className={`message ${message.role === "user" ? "text-blue-500" : "text-red-500"}`}>
                   <h3>{message.role}</h3>
                   <p>{message.content}</p>
                 </div>
-              ))}
+              )
+            })}
           <form className="mt-auto" onSubmit={handleSubmit}>
             <div className="flex justify-between border-slate-700 border-2">
               <input
@@ -104,7 +107,7 @@ function App() {
   )
 }
 
-export default App;
+export default App
 
 
 
