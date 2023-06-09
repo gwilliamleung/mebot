@@ -84,10 +84,18 @@ function App() {
             {conversationArr.map((message, index) => {
               if (index === 0) return null
               return (
-                <div key={index} className={`message ${message.role === "user" ? "text-blue-500" : "text-red-500"}`}>
-                  <h3>{message.role}</h3>
-                  <p>{message.content}</p>
-                </div>
+                <div 
+                key={index} 
+                className={`message ${message.role === "user" ? "justify-end text-blue-500" : "justify-start text-red-500"} 
+                  border border-gray-300
+                  p-2 my-1
+                  rounded-md
+                  w-3/4 
+                  self-${message.role === "user" ? "end" : "start"}
+                `}
+              >
+                <p>{message.content}</p>
+              </div>
               )
             })}
           <form className="mt-auto" onSubmit={handleSubmit}>
