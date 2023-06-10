@@ -81,6 +81,7 @@ function App() {
           </div>
         </div>
         <div className="h-full w-full bg-white justify-between rounded-b-md flex flex-col overflow-y-scroll">
+          <div className="text-red-500">Hello, my name is MeBot, feel free to ask me anything!</div>
             {conversationArr.map((message, index) => {
               if (index === 0) return null
               return (
