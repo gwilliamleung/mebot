@@ -87,7 +87,7 @@ function App() {
               return (
                 <div 
                 key={index} 
-                className={`message ${message.role === "user" ? "justify-end text-blue-500" : "justify-start text-red-500"} 
+                className={`${message.role === "user" ? "justify-end text-blue-500" : "justify-start text-red-500"} 
                   border border-gray-300
                   p-2 my-1
                   rounded-md
