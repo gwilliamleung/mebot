@@ -1,6 +1,5 @@
 import { FaNewspaper, FaArrowRight } from "react-icons/fa"
-import React, { useState, useEffect } from 'react'
-import { Configuration, OpenAIApi } from 'openai'
+import React, { useState, useEffect, useRef  } from 'react'
 
 function App() {
   const [userInput, setUserInput] = useState('')
@@ -44,7 +43,7 @@ function App() {
         const response = await fetch("https://api.openai.com/v1/chat/completions",{
           method: "POST",
           headers: {
-            "Authorization": "Bearer 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",
+            "Authorization": "Bearer sk-",
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
@@ -62,51 +61,62 @@ function App() {
         }
     }
 
+    const messagesEndRef = useRef(null)
 
+    const scrollToBottom = () => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+    
+    useEffect(scrollToBottom, [conversationArr]);
 
-  return (
-    <div className="bg-slate-300 flex justify-center items-center h-screen">
-      <div className="bg-slate-500 w-1/3 h-2/3 justify-between rounded-md items-center flex flex-col">
-        <div className="flex w-full justify-between items-center p-8">
-          <FaNewspaper />
-          <div className="flex flex-col">
-            <h2 className="text-white">MeBot</h2>
-            <h2>Ask me anything!</h2>
+  
+    return (
+      <div className="bg-slate-300 flex justify-center items-center h-screen">
+        <div className="bg-slate-500 w-[600px] h-2/3 justify-between rounded-md items-center flex flex-col">
+          <div className="flex w-full justify-between items-center p-8">
+            <FaNewspaper />
+            <div className="flex flex-col">
+              <h2 className="text-white">MeBot</h2>
+              <h2>Ask me anything!</h2>
+            </div>
+          </div>
+          <div className="h-full w-full bg-white justify-between rounded-b-md flex flex-col ">
+            <div className="overflow-y-auto h-96 flex-grow  ">
+              <div className="text-red-500 border border-gray-600 p-4 m-4 rounded-md w-3/4 self-start">Hello, my name is MeBot, feel free to ask me anything!</div>
+              {conversationArr.map((message, index) => {
+                if (index === 0) return null
+                return (
+                  <div 
+                  key={index} 
+                  className={`${message.role === "user" ? "ml-[132px] justify-end text-blue-500 self-end" : "justify-start text-red-500 self-start"} 
+                    border border-gray-600
+                    p-4
+                    m-4 
+                    rounded-md
+                    w-3/4
+                  `}
+                >
+                  <p>{message.content}</p>
+                </div>
+                )
+              })}
+              <div ref={messagesEndRef} />
+            </div>
+            <form className="mt-auto" onSubmit={handleSubmit}>
+              <div className="flex justify-between border-slate-700 border-2">
+                <input
+                  type="text"
+                  value={userInput}
+                  onChange={handleInputChange}
+                  className="w-3/4 mt-auto"
+                />
+                <button type="submit"><FaArrowRight /></button>
+              </div>
+            </form>
           </div>
         </div>
-        <div className="h-full w-full bg-white justify-between rounded-b-md flex flex-col overflow-y-scroll">
-          <div className="text-red-500 border border-gray-600 p-4 m-4 rounded-md w-3/4 self-start">Hello, my name is MeBot, feel free to ask me anything!</div>
-            {conversationArr.map((message, index) => {
-              if (index === 0) return null
-              return (
-                <div 
-                key={index} 
-                className={`${message.role === "user" ? "justify-end text-blue-500 self-end" : "justify-start text-red-500 self-start"} 
-                  border border-gray-600
-                  p-4 m-4
-                  rounded-md
-                  w-3/4 
-                `}
-              >
-                <p>{message.content}</p>
-              </div>
-              )
-            })}
-          <form className="mt-auto" onSubmit={handleSubmit}>
-            <div className="flex justify-between border-slate-700 border-2">
-              <input
-                type="text"
-                value={userInput}
-                onChange={handleInputChange}
-                className="w-3/4 mt-auto"
-              />
-              <button type="submit"><FaArrowRight /></button>
-            </div>
-          </form>
-        </div>
       </div>
-    </div>
-  )
+    )
 }
 
 export default App
