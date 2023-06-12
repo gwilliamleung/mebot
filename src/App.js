@@ -6,12 +6,6 @@ function App() {
   const [userInput, setUserInput] = useState('')
   const [conversationArr, setConversationArr] = useState([])
   
-  // const configuration = new Configuration({
-  //   apiKey: "sk-"
-  // })
-  // const openai = new OpenAIApi(configuration)
-
-
   useEffect(() => {
     setConversationArr(() => [
       {
@@ -50,7 +44,7 @@ function App() {
         const response = await fetch("https://api.openai.com/v1/chat/completions",{
           method: "POST",
           headers: {
-            "Authorization": "Bearer sk-",
+            "Authorization": "Bearer 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",
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
@@ -81,18 +75,17 @@ function App() {
           </div>
         </div>
         <div className="h-full w-full bg-white justify-between rounded-b-md flex flex-col overflow-y-scroll">
-          <div className="text-red-500">Hello, my name is MeBot, feel free to ask me anything!</div>
+          <div className="text-red-500 border border-gray-600 p-4 m-4 rounded-md w-3/4 self-start">Hello, my name is MeBot, feel free to ask me anything!</div>
             {conversationArr.map((message, index) => {
               if (index === 0) return null
               return (
                 <div 
                 key={index} 
-                className={`${message.role === "user" ? "justify-end text-blue-500" : "justify-start text-red-500"} 
-                  border border-gray-300
-                  p-2 my-1
+                className={`${message.role === "user" ? "justify-end text-blue-500 self-end" : "justify-start text-red-500 self-start"} 
+                  border border-gray-600
+                  p-4 m-4
                   rounded-md
                   w-3/4 
-                  self-${message.role === "user" ? "end" : "start"}
                 `}
               >
                 <p>{message.content}</p>
