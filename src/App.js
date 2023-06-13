@@ -81,24 +81,25 @@ function App() {
             </div>
           </div>
           <div className="h-full w-full bg-white justify-between rounded-b-md flex flex-col ">
-            <div className="overflow-y-auto h-96 flex-col ">
+            <div className="overflow-y-auto h-96 flex flex-col ">
               <div className="text-red-500 border border-gray-600 p-4 w-2/3 m-4 rounded-md self-start">Hello, my name is MeBot, feel free to ask me anything!</div>
               {conversationArr.map((message, index) => {
                 if (index === 0) return null
                 return (
                   <div 
-                  key={index} 
-                  className={`${message.role === "user" ? "justify-end text-blue-500 self-end ml-auto" : "justify-start text-red-500 self-start"} 
-                    border border-gray-600
-                    p-4
-                    m-4 
-                    rounded-md
-                    w-3/4
-                    break-words
-                  `}
-                >
-                  <p>{message.content}</p>
-                </div>
+                    key={index} 
+                    className={`${message.role === "user" ? " text-blue-500 self-end ml-auto" : "flex flex-col items-start text-red-500 self-start"}
+                      border border-gray-600
+                      p-4
+                      m-2
+                      ml-4
+                      rounded-md
+                      break-words
+                      inline-flex
+                    `}
+                  >
+                  <p className=" text-right">{message.content}</p>
+                </div> 
                 )
               })}
               <div ref={messagesEndRef} />
