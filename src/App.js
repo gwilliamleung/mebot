@@ -11,7 +11,7 @@ function App() {
     setConversationArr(() => [
       {
         role: 'system',
-        content: 'Friendly short message, 10 words or less, generator that responses to what the user said. ',
+        content: 'Friendly short message, 10 words or less, generator that responses to what the user said.',
       },
     ])
   },[])
@@ -114,16 +114,16 @@ function App() {
 export default App
 
 
-  // const insturctionObj = [{
-  //   role: 'system',
-  //   content: 'Friendly short message generator that encourages what the user said. '
-  // }]
 
 // Below are first testing of ChatBot using text-davinci-003, only generating single-turn task
 // const handleInputChange = (event) => {
-//   setUserInput(event.target.value)
-// }
-
+  //   setUserInput(event.target.value)
+  // }
+  
+// const insturctionObj = [{
+//   role: 'system',
+//   content: 'Friendly short message generator that encourages what the user said. '
+// }]
 // const handleSubmit = (event) => {
 //   event.preventDefault()
 //   if (userInput) {
