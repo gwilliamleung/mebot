@@ -1,10 +1,12 @@
-import { FaNewspaper, FaArrowRight } from "react-icons/fa"
+import {FaArrowRight } from "react-icons/fa"
 import React, { useState, useEffect, useRef  } from 'react'
+import { process } from "./env"
 
 function App() {
   const [userInput, setUserInput] = useState('')
   const [conversationArr, setConversationArr] = useState([])
-  
+  const apiKey = process.env.OPENAI_API_KEY
+
   useEffect(() => {
     setConversationArr(() => [
       {
@@ -13,11 +15,6 @@ function App() {
       },
     ])
   },[])
-
-  // const insturctionObj = [{
-  //   role: 'system',
-  //   content: 'Friendly short message generator that encourages what the user said. '
-  // }]
 
   const handleInputChange = (event) => {
     setUserInput(event.target.value)
@@ -43,7 +40,7 @@ function App() {
         const response = await fetch("https://api.openai.com/v1/chat/completions",{
           method: "POST",
           headers: {
-            // "Authorization": "Bearer ",
+            "Authorization": `Bearer ${apiKey}`,
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
@@ -71,33 +68,26 @@ function App() {
 
   
     return (
-      <div className="bg-slate-300 flex justify-center items-center h-screen">
-        <div className="bg-slate-500 w-1/3 h-2/3 justify-between rounded-md items-center flex flex-col">
+      <div className="bg-[#9D8CA1] flex justify-center items-center h-screen">
+        <div className="bg-[#81717A] w-1/3 h-2/3 justify-between rounded-md items-center flex flex-col">
           <div className="flex w-full justify-between items-center p-8">
-            <FaNewspaper />
+            <div/>
+            <h1 className="text-5xl text-[#F9F8F8] mr-2">MeBot</h1>
             <div className="flex flex-col">
-              <h2 className="text-white">MeBot</h2>
-              <h2>Ask me anything!</h2>
+              <h2 className="text-[#F9F8F8]">MeBot</h2>
+              <h2 className="text-[#AA9DA4]">Ask me anything!</h2>
             </div>
           </div>
           <div className="h-full w-full bg-white justify-between rounded-b-md flex flex-col ">
             <div className="overflow-y-auto h-96 flex flex-col ">
-              <div className="text-red-500 border border-gray-600 p-4 w-2/3 m-4 rounded-md self-start">Hello, my name is MeBot, feel free to ask me anything!</div>
+              <div className="text-[#6C72C6] border border-[#989CD7] p-4 w-2/3 m-4 rounded-md self-start">Hello, my name is MeBot, feel free to ask me anything!</div>
               {conversationArr.map((message, index) => {
                 if (index === 0) return null
                 return (
                   <div 
                     key={index} 
-                    className={`${message.role === "user" ? " text-blue-500 self-end ml-auto" : "flex flex-col items-start text-red-500 self-start"}
-                      border border-gray-600
-                      p-4
-                      m-2
-                      ml-4
-                      rounded-md
-                      break-words
-                      inline-flex
-                    `}
-                  >
+                    className={`${message.role === "user" ? " text-[#69A9DD] self-end ml-auto" : "flex flex-col items-start text-[#6C72C6] self-start"}
+                      border border-[#989CD7] p-4 m-2 ml-4 rounded-md break-words inline-flex`}>
                   <p className=" text-right">{message.content}</p>
                 </div> 
                 )
@@ -110,7 +100,7 @@ function App() {
                   type="text"
                   value={userInput}
                   onChange={handleInputChange}
-                  className="w-3/4 mt-auto"
+                  className="w-[90%] mt-auto"
                 />
                 <button type="submit"><FaArrowRight /></button>
               </div>
@@ -124,6 +114,10 @@ function App() {
 export default App
 
 
+  // const insturctionObj = [{
+  //   role: 'system',
+  //   content: 'Friendly short message generator that encourages what the user said. '
+  // }]
 
 // Below are first testing of ChatBot using text-davinci-003, only generating single-turn task
 // const handleInputChange = (event) => {
