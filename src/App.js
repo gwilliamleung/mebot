@@ -89,7 +89,6 @@ function App() {
               {conversationArr.map((message, index) => {
                 if (index === 0) return null
                 return (
-                  // if (message.role === "assisstant" && isLoading)
                     <div 
                       key={index} 
                       className={`${message.role === "user" ? " text-[#69A9DD] self-end ml-auto" : "flex flex-col items-start text-[#6C72C6] self-start"}
