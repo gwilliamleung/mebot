@@ -5,6 +5,7 @@ import { process } from "./env"
 function App() {
   const [userInput, setUserInput] = useState('')
   const [conversationArr, setConversationArr] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   const apiKey = process.env.OPENAI_API_KEY
 
   useEffect(() => {
@@ -37,6 +38,7 @@ function App() {
 
     const fetchReply = async (conversation) => {
       try {
+        setIsLoading(true)
         const response = await fetch("https://api.openai.com/v1/chat/completions",{
           method: "POST",
           headers: {
@@ -55,7 +57,9 @@ function App() {
         console.log(updatedConversationBot)
       } catch (error) {
           console.error('Error:', error)
-        }
+      } finally {
+        setIsLoading(false)
+      }
     }
 
     const messagesEndRef = useRef(null)
@@ -81,17 +85,20 @@ function App() {
           <div className="h-full w-full bg-white justify-between rounded-b-md flex flex-col ">
             <div className="overflow-y-auto h-96 flex flex-col ">
               <div className="text-[#6C72C6] border border-[#989CD7] p-4 w-2/3 m-4 rounded-md self-start">Hello, my name is MeBot, feel free to ask me anything!</div>
+              
               {conversationArr.map((message, index) => {
                 if (index === 0) return null
                 return (
-                  <div 
-                    key={index} 
-                    className={`${message.role === "user" ? " text-[#69A9DD] self-end ml-auto" : "flex flex-col items-start text-[#6C72C6] self-start"}
-                      border border-[#989CD7] p-4 m-2 ml-4 rounded-md break-words inline-flex`}>
-                  <p className=" text-right">{message.content}</p>
-                </div> 
+                  // if (message.role === "assisstant" && isLoading)
+                    <div 
+                      key={index} 
+                      className={`${message.role === "user" ? " text-[#69A9DD] self-end ml-auto" : "flex flex-col items-start text-[#6C72C6] self-start"}
+                        border border-[#989CD7] p-4 m-2 ml-4 rounded-md break-words inline-flex`}>
+                        <div className=" text-right">{message.content}</div>                    
+                   </div> 
                 )
               })}
+              {isLoading ? ( <div className="text-[#6C72C6] border border-[#989CD7] p-4 w-2/3 m-4 rounded-md self-start">Loading...</div>) : null}
               <div ref={messagesEndRef} />
             </div>
             <form className="mt-auto" onSubmit={handleSubmit}>
