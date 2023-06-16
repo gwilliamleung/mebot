@@ -12,7 +12,7 @@ function App() {
     setConversationArr(() => [
       {
         role: 'system',
-        content: 'Friendly short message, 10 words or less, generator that responses to what the user said.',
+        content: 'Friendly short message, 10 words or less, generator that responses to what the user said. Your name is Mebot',
       },
     ])
   },[])
